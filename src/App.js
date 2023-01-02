@@ -32,11 +32,28 @@
 
 /*
 TO DO
+
+-- [0] Basic front-end Prototype with no data retention (front-end only) --
 1. add button to edit images on detailed view
-1. adding images loading state
-2. add full screen image option
-3. add icons to navbar
-4. add styling to all pages
+2. add image loading state
+3. add full screen image option
+4. add icons to navbar
+5. add styling/design to all pages
+6. add unit tests to the main functions
+7. add infinite scroll to tags page
+
+-- [1] MVP with data retention and data persistance (private library only) --
+7. create and host database
+8. create and host backend
+9. implement signup & login system
+10. connect front end with database through the implementation of backend functions
+
+-- Future Roadmap (to be validated and refined) --
+11. Onboarding flow
+12. Sharing feature (with specific people)
+13. Connect with community nature moments
+14. Add background sounds
+
 */
 
 import React, { useState } from 'react';
@@ -215,7 +232,12 @@ function getTags(items = []) {
     tags = tags.concat(item.tags.filter((tag) => tags.indexOf(tag) == -1));
   });
 
-  return tags;
+  let shuffledTags = tags
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+
+  return shuffledTags;
 }
 
 function getItems() {
