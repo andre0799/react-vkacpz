@@ -34,25 +34,28 @@
 TO DO
 
 -- [0] Basic front-end Prototype with no data retention (front-end only) --
-1. add button to edit images on detailed view
-2. add image loading state
-3. add full screen image option
-4. add icons to navbar
-5. add styling/design to all pages
-6. add unit tests to the main functions
-7. add infinite scroll to tags page
+1. add button and functionality to edit images on detailed view
+2. add feature to allow images to be deleted
+3. add image loading state
+4. add full screen image option
+5. add icons to navbar
+6. add styling/design to all pages
+7. break down components into different pages to better organize the code (specially for testing)
+8. add unit tests to the main functions
+9. add infinite scroll to tags page
 
--- [1] MVP with data retention and data persistance (private library only) --
-7. create and host database
-8. create and host backend
-9. implement signup & login system
-10. connect front end with database through the implementation of backend functions
+-- [1] MVP with data retention (private library only) --
+10. create and host database
+11. create and host backend
+12. implement signup & login system
+13. connect front end with database through the implementation of backend functions
+14. add end-to-end testing for the main flows
 
 -- Future Roadmap (to be validated and refined) --
-11. Onboarding flow
-12. Sharing feature (with specific people)
-13. Connect with community nature moments
-14. Add background sounds
+15. Onboarding flow
+16. Sharing feature (with specific people)
+17. Connect with community nature moments
+18. Add background sounds
 
 */
 
