@@ -30,15 +30,192 @@
 //}, ...
 //]
 
-import React from 'react';
+/*
+TO DO
+1. add button to edit images on detailed view
+1. adding images loading state
+2. add full screen image option
+3. add icons to navbar
+4. add styling to all pages
+*/
+
+import React, { useState } from 'react';
 import './style.css';
 
-export default function App() {
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: 'Home',
+      items: getItems(),
+    };
+
+    this.navigateTo = this.navigateTo.bind(this);
+    this.viewByTag = this.viewByTag.bind(this);
+    this.addNewItem = this.addNewItem.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      tags: getTags(this.state.items),
+    });
+  }
+
+  navigateTo(page) {
+    this.setState({
+      page,
+    });
+  }
+
+  viewByTag(tag) {
+    this.setState({
+      viewTag: tag,
+      page: 'Detail',
+    });
+  }
+
+  addNewItem(item) {
+    this.setState({
+      items: [...this.state.items, item],
+      page: 'Home',
+    });
+  }
+
+  render() {
+    console.log(this.state);
+    getTags();
+
+    let pageContent = '';
+
+    if (this.state.page == 'Detail' && this.state.viewTag) {
+      pageContent = renderDetailedView(
+        returnItemByTag(this.state.items, this.state.viewTag)
+      );
+    } else if (this.state.page == 'Random') {
+      pageContent = renderDetailedView(returnRandomItem(this.state.items));
+    } else if (this.state.page == 'Add') {
+      pageContent = renderAddImageView(this.addNewItem);
+    } else {
+      pageContent = renderTags(getTags(this.state.items), this.viewByTag);
+    }
+
+    return (
+      <div>
+        <div>{pageContent}</div>
+        <div className="navBar">
+          <div onClick={this.navigateTo.bind(this, 'Home')}>Home</div>
+          <div onClick={this.navigateTo.bind(this, 'Random')}>Random</div>
+          <div onClick={this.navigateTo.bind(this, 'Add')}>Add</div>
+        </div>
+      </div>
+    );
+  }
+}
+
+function returnItemByTag(items, tag) {
+  const filterdItems = items.filter((item) => item.tags.indexOf(tag) > -1);
+  return filterdItems[Math.floor(Math.random() * filterdItems.length)];
+}
+
+function returnRandomItem(items) {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function renderAddImageView(addNewItem) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const title = event.target.elements.title.value;
+    const description = event.target.elements.description.value;
+    const tags = event.target.elements.tags.value;
+    const imageUrl = window.URL.createObjectURL(
+      event.target.elements.image.files[0]
+    );
+
+    const item = {
+      title,
+      description,
+      tags: tags.split(','),
+      imageUrl: imageUrl,
+    };
+
+    console.log(item);
+
+    addNewItem(item);
+
+    alert('Image added with success');
+  };
+
   return (
-    <div>
-      Build a list of nature images. See comments at top for instructions. 2
+    <div className="addItemContainer">
+      <div className="addItemContent">
+        <h1 className="headerTitle">Add a new nature snapshot</h1>
+        <form onSubmit={handleSubmit} className="addItemForm">
+          <div>
+            <label htmlFor="title">Title</label>
+            <input id="title" type="text" />
+          </div>
+          <div>
+            <label htmlFor="description">Description</label>
+            <input id="description" type="text" />
+          </div>
+          <div>
+            <label htmlFor="tags">Tags (separated by comma)</label>
+            <input id="tags" type="text" />
+          </div>
+          <div>
+            <label htmlFor="image">Image</label>
+            <input id="image" type="file" multiple accept="image/*" />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </div>
   );
+}
+
+function renderDetailedView(item) {
+  return (
+    <div className="detailedView">
+      <h1>{item.title}</h1>
+      <img src={item.imageUrl} height="300" />
+      <p>{item.description}</p>
+    </div>
+  );
+}
+
+function renderTags(tags, viewByTag) {
+  if (!tags) return <div>Your library is empty</div>;
+
+  return (
+    <div>
+      <h1 className="headerTitle">How do you want to get inspired?</h1>
+      <div className="tagBox">
+        {tags &&
+          tags.length &&
+          tags.map((tag, i) => {
+            return (
+              <div
+                className="tag"
+                key={'tag-' + i}
+                onClick={viewByTag.bind(this, tag)}
+              >
+                {tag}
+              </div>
+            );
+          })}
+      </div>
+    </div>
+  );
+}
+
+function getTags(items = []) {
+  let tags = [];
+
+  items.forEach((item) => {
+    tags = tags.concat(item.tags.filter((tag) => tags.indexOf(tag) == -1));
+  });
+
+  return tags;
 }
 
 function getItems() {
@@ -100,7 +277,7 @@ function getItems() {
     },
     {
       title: 'Los Angeles sunset field',
-      description: 'selrctive focus of white flowers',
+      description: 'selective focus of white flowers',
       imageUrl: 'https://images.unsplash.com/photo-1475113548554-5a36f1f523d6',
       tags: ['nature', 'sunset', 'los angeles'],
     },

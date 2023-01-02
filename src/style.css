@@ -1,3 +1,70 @@
-h1, p {
+h1,
+p {
   font-family: Lato;
+}
+
+body {
+  margin: 0;
+}
+
+.tagBox {
+}
+
+.tag {
+  padding: 10px;
+  background: #f3f380;
+  border-radius: 10px;
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  background: #fbf3f3;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.navBar > div {
+  padding: 20px;
+  cursor: pointer;
+  background: white;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.headerTitle {
+  text-align: center;
+}
+
+.detailedView {
+  text-align: center;
+}
+
+.addItemContainer {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: table;
+}
+
+.addItemContent {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.addItemForm {
+  display: table;
+  margin: auto;
+}
+
+.addItemForm > div {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
